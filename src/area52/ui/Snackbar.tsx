@@ -2,8 +2,6 @@ import styled, { css } from "styled-components";
 import tokens from "open-props";
 import color from "area52/styles/color";
 import { Bold } from "area52/styles/typography";
-import { useRef } from "react";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const Danger = css`

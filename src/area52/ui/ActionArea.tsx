@@ -1,10 +1,9 @@
 import tokens from "open-props";
 import styled, { css } from "styled-components";
 import colors from "area52/styles/color";
-import { Bold, Text } from "area52/styles/typography";
+import { Bold } from "area52/styles/typography";
 import { type Area52State } from "area52/model";
 import { Card } from "area52/deck/types";
-import color from "area52/styles/color";
 
 const Wrapper = styled.div`
   gap: ${tokens.size2};
