@@ -1,9 +1,9 @@
+import type { Area52State } from "area52/model";
+import type { Card } from "deck";
 import tokens from "open-props";
 import styled, { css } from "styled-components";
-import colors from "area52/styles/color";
-import { Bold } from "area52/styles/typography";
-import { type Area52State } from "area52/model";
-import { Card } from "area52/deck/types";
+import colors from "ui/styles/colors";
+import { Bold } from "ui/styles/typography";
 
 const Wrapper = styled.div`
   gap: ${tokens.size2};

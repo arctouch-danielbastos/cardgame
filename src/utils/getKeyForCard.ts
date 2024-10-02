@@ -1,4 +1,4 @@
-import type { Card } from "area52/deck/types";
+import type { Card } from "deck";
 
 export default function getKeyForCard({ suit, rank }: Card) {
   return `${rank}${suit}`;

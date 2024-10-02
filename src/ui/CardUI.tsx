@@ -1,8 +1,7 @@
 import { ufo, faceAlien, astronautHelmet } from "@lucide/lab";
+import { isRed, type Card } from "deck";
 import { Icon, Rocket } from "lucide-react";
-import type { Card } from "area52/deck/types";
-import { isRed } from "area52/model/deck";
-import { CardPlaceholder, PlayingCard } from "area52/styles/card";
+import { CardPlaceholder, PlayingCard } from "ui/styles/card";
 
 const suitToComponent = {
   heart: <Icon iconNode={ufo} />,

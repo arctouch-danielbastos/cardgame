@@ -1,15 +1,15 @@
 import tokens from "open-props";
 import styled from "styled-components";
-import colors from "area52/styles/color";
 import { useEffect, useRef, useState } from "react";
 import area52Model from "area52/model";
-import { Card } from "area52/deck/types";
 import { includes, without } from "lodash";
-import Area from "area52/ui/Area";
-import { lastValid } from "area52/utils/lastValid";
-import ActionArea from "area52/ui/ActionArea";
-import { Title } from "area52/styles/typography";
-import Alerts from "area52/ui/Alerts";
+import { Title } from "ui/styles/typography";
+import colors from "ui/styles/colors";
+import type { Card } from "deck";
+import { lastValid } from "utils/lastValid";
+import Area from "ui/Area";
+import ActionArea from "ui/ActionArea";
+import Alerts from "ui/Alerts";
 
 const Wrapper = styled.div`
   align-items: center;

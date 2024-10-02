@@ -1,7 +1,7 @@
 import tokens from "open-props";
 import styled, { css } from "styled-components";
-import colors from "area52/styles/color";
-import { Bold } from "area52/styles/typography";
+import colors from "ui/styles/colors";
+import { Bold } from "ui/styles/typography";
 
 const redColor = colors.red;
 const blackColor = colors.blue;

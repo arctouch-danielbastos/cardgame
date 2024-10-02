@@ -1,12 +1,6 @@
+import { buildDeck, hasDifferentColor, isBlack, isRed, type Card } from "deck";
 import buildModel from "framework/model";
 import type { Hook, Model, MoveConfig } from "framework/model/types";
-import {
-  buildDeck,
-  hasDifferentColor,
-  isBlack,
-  isRed,
-} from "area52/model/deck";
-import type { Card } from "area52/deck/types";
 import {
   filter,
   isEmpty,
@@ -19,8 +13,8 @@ import {
   sumBy,
   take,
 } from "lodash";
-import { lastValid } from "area52/utils/lastValid";
-import topOff from "area52/utils/topOff";
+import { lastValid } from "utils/lastValid";
+import topOff from "utils/topOff";
 
 export type Area52State = {
   attackers: { active: Array<Card | null>; deck: Array<Card | null> };

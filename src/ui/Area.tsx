@@ -1,12 +1,12 @@
 import tokens from "open-props";
-import CardUI from "area52/ui/CardUI";
 import styled from "styled-components";
-import colors from "area52/styles/color";
-import { Card } from "area52/deck/types";
 import { includes } from "lodash";
-import getKeyForCard from "area52/utils/getKeyForCard";
-import { Bold } from "area52/styles/typography";
 import { LayersIcon } from "lucide-react";
+import colors from "ui/styles/colors";
+import { Bold } from "ui/styles/typography";
+import type { Card } from "deck";
+import CardUI from "ui/CardUI";
+import getKeyForCard from "utils/getKeyForCard";
 
 const Wrapper = styled.div`
   border-radius: ${tokens.radius2};

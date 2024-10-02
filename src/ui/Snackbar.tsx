@@ -1,22 +1,22 @@
 import styled, { css } from "styled-components";
 import tokens from "open-props";
-import color from "area52/styles/color";
-import { Bold } from "area52/styles/typography";
 import { AnimatePresence, motion } from "framer-motion";
+import { Bold } from "ui/styles/typography";
+import colors from "ui/styles/colors";
 
 const Danger = css`
-  background-color: ${color.red};
-  color: ${color.bgRed};
+  background-color: ${colors.red};
+  color: ${colors.bgRed};
 `;
 
 const Happy = css`
-  background-color: ${color.blue};
-  color: ${color.bgBlue};
+  background-color: ${colors.blue};
+  color: ${colors.bgBlue};
 `;
 
 const Neutral = css`
-  background-color: ${color.fg};
-  color: ${color.bg0};
+  background-color: ${colors.fg};
+  color: ${colors.bg0};
 `;
 
 type Variant = "neutral" | "happy" | "danger";

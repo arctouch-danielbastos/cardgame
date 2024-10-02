@@ -1,5 +1,4 @@
 import type { Area52State } from "area52/model";
-import Snackbar from "area52/ui/Snackbar";
 import {
   AlertOctagonIcon,
   CrosshairIcon,
@@ -7,6 +6,7 @@ import {
   SkullIcon,
 } from "lucide-react";
 import { useEffect, useRef, useState, type ComponentProps } from "react";
+import Snackbar from "ui/Snackbar";
 
 type Config = ComponentProps<typeof Snackbar>["alert"] & { permanent: boolean };
 const firstWave: Config = {

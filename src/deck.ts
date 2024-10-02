@@ -1,5 +1,7 @@
-import type { Card, Suit } from "area52/deck/types";
 import { range } from "lodash";
+
+export type Suit = "heart" | "diamond" | "spade" | "club";
+export type Card = { rank: number; suit: Suit };
 
 export const suits: Suit[] = ["club", "diamond", "heart", "spade"];
 const redSuits: Suit[] = ["diamond", "heart"];

@@ -1,8 +1,8 @@
-import colors, { DarkColors, LightColors } from "area52/styles/color";
-import App from "area52/ui";
+import App from "area52/view";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createGlobalStyle } from "styled-components";
+import colors, { DarkColors, LightColors } from "ui/styles/colors";
 
 const GlobalStyle = createGlobalStyle`
 	:root {
