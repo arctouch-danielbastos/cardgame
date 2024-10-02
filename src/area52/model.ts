@@ -4,7 +4,6 @@ import type { Hook, Model, MoveConfig } from "framework/model/types";
 import {
   filter,
   isEmpty,
-  isEqual,
   isNull,
   map,
   negate,
@@ -14,6 +13,7 @@ import {
   take,
 } from "lodash";
 import { lastValid } from "utils/lastValid";
+import replaceWith from "utils/replaceWith";
 import topOff from "utils/topOff";
 
 export type Area52State = {
@@ -25,10 +25,6 @@ export type Area52State = {
   dualAttack: (props: DualAttackProps) => void;
   singleAttack: (props: SingleAttackProps) => void;
   sacrifice: (props: SacrificeProps) => void;
-};
-
-const replaceWith = <T>(list: T[], item: T, replacement: T): T[] => {
-  return map(list, i => (isEqual(i, item) ? replacement : i));
 };
 
 type DualAttackProps = { defenders: [Card, Card] };
