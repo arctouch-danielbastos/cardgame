@@ -3,7 +3,14 @@ import styled from "styled-components";
 import colors from "ui/styles/colors";
 import Heart from "scoundrel/heart.svg?react";
 import { Bold } from "ui/styles/typography";
-import { motion } from "framer-motion";
+import {
+  animate,
+  motion,
+  useMotionValue,
+  useTransform,
+  type Transition,
+} from "framer-motion";
+import { useEffect } from "react";
 
 type Props = { max: number; health: number };
 
@@ -41,13 +48,19 @@ const Indicator = styled.div`
 
 export default function LifeBar({ max, health }: Props) {
   const percentage = Math.round((health / max) * 100);
+  const healthValue = useMotionValue(health);
+  const rounded = useTransform(healthValue, value => Math.round(value));
+  useEffect(() => {
+    const control = animate(healthValue, health);
+    return () => control.stop();
+  }, [health]);
 
   return (
     <Wrapper animate={{ "--percentage": percentage } as any}>
       <Track />
       <Indicator>
         <Heart />
-        <span>{health}</span>
+        <motion.span>{rounded}</motion.span>
       </Indicator>
     </Wrapper>
   );
