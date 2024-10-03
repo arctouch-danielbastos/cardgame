@@ -1,4 +1,13 @@
-import { range } from "lodash";
+import {
+  filter,
+  flatten,
+  isNull,
+  negate,
+  range,
+  shuffle,
+  slice,
+  take,
+} from "lodash";
 
 export type Suit = "heart" | "diamond" | "spade" | "club";
 export type Card = { rank: number; suit: Suit };
@@ -21,3 +30,26 @@ export const buildDeck = () => {
 
   return cards;
 };
+
+export function draw(handSize: number, ...decks: Array<Card[]>) {
+  const cards = flatten(decks);
+  const hand = take(cards, handSize);
+  const deck = slice(cards, handSize);
+  return [hand, deck] as const;
+}
+
+export function shuffleAndDraw(handSize: number, ...decks: Array<Card[]>) {
+  return draw(handSize, shuffle(flatten(decks)));
+}
+
+export function filterValid(cards: Array<Card | null>): Card[] {
+  return filter(cards, negate(isNull)) as Card[];
+}
+
+export function fillHand(hand: Array<Card | null>, deck: Array<Card>) {
+  const newDeck = [...deck];
+  const newHand = hand.map(card =>
+    !isNull(card) ? card : newDeck.pop() ?? null
+  );
+  return [newHand, newDeck] as const;
+}

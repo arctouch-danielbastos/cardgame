@@ -11,6 +11,16 @@ import ActionArea from "area52/ActionArea";
 import Alerts from "ui/Alerts";
 import useModel from "ui/hooks/useModel";
 import VerticalLayout from "ui/VerticalLayout";
+import { ufo, faceAlien, astronautHelmet } from "@lucide/lab";
+import { Icon, Rocket } from "lucide-react";
+import { buildCardUi } from "ui/buildCardUI";
+
+const Area52Cards = buildCardUi({
+  heart: <Icon iconNode={ufo} />,
+  diamond: <Icon iconNode={faceAlien} />,
+  spade: <Icon iconNode={astronautHelmet} />,
+  club: <Rocket />,
+});
 
 const GameTitle = styled.div`
   ${Title};
@@ -40,12 +50,14 @@ export default function App() {
     <VerticalLayout>
       <GameTitle>area 52</GameTitle>
       <Area
+        CardUI={Area52Cards}
         cards={state.attackers.active}
         activeCards={[lastValid(state.attackers.active) || null]}
         title="Attackers"
         count={state.attackers.deck.length}
       />
       <Area
+        CardUI={Area52Cards}
         cards={state.defenders.active}
         activeCards={selected}
         onClickCard={toggle}

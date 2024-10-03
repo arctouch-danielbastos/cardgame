@@ -5,15 +5,15 @@ import { LayersIcon } from "lucide-react";
 import colors from "ui/styles/colors";
 import { Bold } from "ui/styles/typography";
 import type { Card } from "deck";
-import CardUI from "ui/CardUI";
 import getKeyForCard from "utils/getKeyForCard";
+import type { buildCardUi } from "ui/buildCardUI";
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ $rowSize: number }>`
   border-radius: ${tokens.radius2};
   border: ${tokens.borderSize3} solid ${colors.bg2};
   display: grid;
   gap: ${tokens.sizeFluid2};
-  grid-template-columns: repeat(3, auto);
+  grid-template-columns: ${p => `repeat(${p.$rowSize}, auto)`};
   justify-content: flex-start;
   padding: ${tokens.size5} ${tokens.size3};
   position: relative;
@@ -47,23 +47,27 @@ const Counter = styled.div`
 `;
 
 type Props = {
-  cards: Array<Card | null>;
   activeCards?: Array<Card | null>;
-  onClickCard?: (card: Card) => void;
+  cards: Array<Card | null>;
   count?: number;
+  onClickCard?: (card: Card) => void;
+  rowSize?: number;
   title: string;
+  CardUI: ReturnType<typeof buildCardUi>;
 };
 
 export default function Area({
   activeCards,
   cards,
-  onClickCard,
-  title,
   count,
+  onClickCard,
+  rowSize = 3,
+  title,
+  CardUI,
 }: Props) {
   const isActive = (card: Card | null) => !!card && includes(activeCards, card);
   return (
-    <Wrapper>
+    <Wrapper $rowSize={rowSize}>
       <Title>{title}</Title>
       {cards.map((card, i) => (
         <CardUI

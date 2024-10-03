@@ -1,9 +1,8 @@
 import type { Area52State } from "area52/model";
 import type { Card } from "deck";
 import tokens from "open-props";
-import styled, { css } from "styled-components";
-import colors from "ui/styles/colors";
-import { Bold } from "ui/styles/typography";
+import styled from "styled-components";
+import ActionButton from "ui/ActionButton";
 
 const Wrapper = styled.div`
   gap: ${tokens.size2};
@@ -13,30 +12,6 @@ const Wrapper = styled.div`
   align-items: stretch;
   width: 100%;
   padding: 0;
-`;
-
-const DisabledAction = css`
-  cursor: default;
-  pointer-events: none;
-  opacity: 0.5;
-`;
-
-const Action = styled.button<{ disabled: boolean }>`
-  ${Bold};
-  background-color: ${colors.bg2};
-  border-radius: ${tokens.radius2};
-  border: ${tokens.borderSize3} solid ${colors.none};
-  color: ${colors.fg};
-  cursor: pointer;
-  font-size: ${tokens.fontSize1};
-  letter-spacing: ${tokens.fontLetterspacing1};
-  outline: none;
-  padding: ${tokens.size2} ${tokens.size5};
-  ${p => (p.disabled ? DisabledAction : null)}
-
-  &:hover {
-    background-color: ${colors.bg3};
-  }
 `;
 
 type ActionConfig = {
@@ -89,13 +64,13 @@ export default function ActionArea({ selected, state, onAttack }: Props) {
   return (
     <Wrapper>
       {actions.map(action => (
-        <Action
+        <ActionButton
           key={action.id}
           disabled={!action.condition(state, selected)}
           onClick={buildHandler(action.action)}
         >
           {action.label}
-        </Action>
+        </ActionButton>
       ))}
     </Wrapper>
   );

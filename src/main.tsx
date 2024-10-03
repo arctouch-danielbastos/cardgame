@@ -1,4 +1,4 @@
-import App from "area52/view";
+import App from "scoundrel/view";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createGlobalStyle } from "styled-components";
