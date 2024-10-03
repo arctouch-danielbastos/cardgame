@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import tokens from "open-props";
 import ScoundrelLogo from "scoundrel/logo.svg?react";
 import { isEqual, takeRight } from "lodash";
 import Area from "ui/Area";
@@ -11,6 +12,7 @@ import ActionList from "scoundrel/ActionList";
 import { Icon, SkullIcon, SwordsIcon } from "lucide-react";
 import { cauldron, faceAlien } from "@lucide/lab";
 import { buildCardUi } from "ui/buildCardUI";
+import LifeBar from "ui/LifeBar";
 
 const ScoundrelCards = buildCardUi({
   heart: <Icon iconNode={cauldron} />,
@@ -19,7 +21,13 @@ const ScoundrelCards = buildCardUi({
   club: <SkullIcon />,
 });
 
-const GameTitle = styled.div`
+const LifeWrapper = styled.div`
+  margin: 0 auto;
+  width: 12.5rem;
+  padding: ${tokens.size3};
+`;
+
+const Section = styled.div`
   display: flex;
   justify-content: center;
 `;
@@ -35,9 +43,12 @@ export default function App() {
   const weaponRow = [state.weapon.card, ...takeRight(state.weapon.monsters, 3)];
   return (
     <VerticalLayout>
-      <GameTitle>
+      <Section>
         <ScoundrelLogo />
-      </GameTitle>
+      </Section>
+      <LifeWrapper>
+        <LifeBar health={state.health} max={20} />
+      </LifeWrapper>
       <Area
         CardUI={ScoundrelCards}
         rowSize={4}
