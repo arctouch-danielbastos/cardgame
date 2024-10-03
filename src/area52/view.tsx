@@ -8,7 +8,7 @@ import type { Card } from "deck";
 import { lastValid } from "utils/lastValid";
 import Area from "ui/Area";
 import ActionArea from "area52/ActionArea";
-import Alerts from "ui/Alerts";
+import Alerts from "area52/Alerts";
 import useModel from "ui/hooks/useModel";
 import VerticalLayout from "ui/VerticalLayout";
 import { ufo, faceAlien, astronautHelmet } from "@lucide/lab";
