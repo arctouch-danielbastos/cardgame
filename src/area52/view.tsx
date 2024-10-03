@@ -1,6 +1,5 @@
-import tokens from "open-props";
 import styled from "styled-components";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import area52Model from "area52/model";
 import { includes, without } from "lodash";
 import { Title } from "ui/styles/typography";
@@ -8,35 +7,15 @@ import colors from "ui/styles/colors";
 import type { Card } from "deck";
 import { lastValid } from "utils/lastValid";
 import Area from "ui/Area";
-import ActionArea from "ui/ActionArea";
+import ActionArea from "area52/ActionArea";
 import Alerts from "ui/Alerts";
-
-const Wrapper = styled.div`
-  align-items: center;
-  display: inline-flex;
-  flex-direction: column;
-  gap: ${tokens.size5};
-  padding-top: ${tokens.size10};
-
-  @media (max-width: 500px) {
-    padding-top: ${tokens.size3};
-  }
-`;
+import useModel from "ui/hooks/useModel";
+import VerticalLayout from "ui/VerticalLayout";
 
 const GameTitle = styled.div`
   ${Title};
   color: ${colors.blue};
 `;
-
-const useModel = () => {
-  const model = useRef(area52Model()).current;
-  const [state, setState] = useState(model.state);
-  useEffect(() => {
-    model.subscribe(() => setState(model.state));
-  }, [model]);
-
-  return { model, state };
-};
 
 const useSelection = () => {
   const [selected, setSelected] = useState<Card[]>([]);
@@ -54,11 +33,11 @@ const useSelection = () => {
 };
 
 export default function App() {
-  const { state } = useModel();
+  const { state } = useModel(area52Model);
   const { selected, toggle, resetSelection } = useSelection();
 
   return (
-    <Wrapper>
+    <VerticalLayout>
       <GameTitle>area 52</GameTitle>
       <Area
         cards={state.attackers.active}
@@ -76,6 +55,6 @@ export default function App() {
 
       <ActionArea selected={selected} onAttack={resetSelection} state={state} />
       <Alerts state={state} />
-    </Wrapper>
+    </VerticalLayout>
   );
 }
