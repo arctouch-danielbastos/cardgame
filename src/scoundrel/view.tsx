@@ -1,7 +1,6 @@
 import styled from "styled-components";
+import ScoundrelLogo from "scoundrel/logo.svg?react";
 import { isEqual, takeRight } from "lodash";
-import { Title } from "ui/styles/typography";
-import colors from "ui/styles/colors";
 import Area from "ui/Area";
 import useModel from "ui/hooks/useModel";
 import scoundrelModel from "scoundrel/model";
@@ -21,8 +20,8 @@ const ScoundrelCards = buildCardUi({
 });
 
 const GameTitle = styled.div`
-  ${Title};
-  color: ${colors.blue};
+  display: flex;
+  justify-content: center;
 `;
 
 export default function App() {
@@ -36,7 +35,9 @@ export default function App() {
   const weaponRow = [state.weapon.card, ...takeRight(state.weapon.monsters, 3)];
   return (
     <VerticalLayout>
-      <GameTitle>{state.health}</GameTitle>
+      <GameTitle>
+        <ScoundrelLogo />
+      </GameTitle>
       <Area
         CardUI={ScoundrelCards}
         rowSize={4}
