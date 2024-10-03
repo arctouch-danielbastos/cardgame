@@ -3,13 +3,7 @@ import styled from "styled-components";
 import colors from "ui/styles/colors";
 import Heart from "scoundrel/heart.svg?react";
 import { Bold } from "ui/styles/typography";
-import {
-  animate,
-  motion,
-  useMotionValue,
-  useTransform,
-  type Transition,
-} from "framer-motion";
+import { animate, motion, useMotionValue, useTransform } from "framer-motion";
 import { useEffect } from "react";
 
 type Props = { max: number; health: number };
