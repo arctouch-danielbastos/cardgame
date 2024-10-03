@@ -33,6 +33,10 @@ export type ScoundrelState = {
   fightWithWeapon: (card: Card) => void;
 };
 
+const isGameOver = (state: ScoundrelState) => {
+  if (state.winState) throw new Error("Can't play after game over");
+};
+
 const ROOM_SIZE = 4;
 const MAX_HEALTH = 20;
 const SCOUNDREL_DECK = buildDeck(2, 14).filter(card => {
@@ -42,6 +46,7 @@ const SCOUNDREL_DECK = buildDeck(2, 14).filter(card => {
 
 const flee: MoveConfig<ScoundrelState, void> = {
   validations(state) {
+    isGameOver(state);
     if (state.room.hasSkipped) {
       throw new Error("Can't skip the same room twice");
     }
@@ -63,7 +68,8 @@ const flee: MoveConfig<ScoundrelState, void> = {
 };
 
 const drinkPotion: MoveConfig<ScoundrelState, Card> = {
-  validations(_, card) {
+  validations(state, card) {
+    isGameOver(state);
     if (card.suit !== "heart") throw new Error("Can't drink non-potion");
   },
   handler(state, card) {
@@ -76,7 +82,8 @@ const drinkPotion: MoveConfig<ScoundrelState, Card> = {
 };
 
 const equipWeapon: MoveConfig<ScoundrelState, Card> = {
-  validations(_, card) {
+  validations(state, card) {
+    isGameOver(state);
     if (card.suit !== "diamond") throw new Error("Can't equip non-weapon");
   },
   handler(state, card) {
@@ -87,7 +94,8 @@ const equipWeapon: MoveConfig<ScoundrelState, Card> = {
 };
 
 const fightBarehanded: MoveConfig<ScoundrelState, Card> = {
-  validations(_, card) {
+  validations(state, card) {
+    isGameOver(state);
     if (!isBlack(card)) throw new Error("Can't fight non-monster");
   },
   handler(state, card) {
@@ -98,6 +106,7 @@ const fightBarehanded: MoveConfig<ScoundrelState, Card> = {
 
 const fightWithWeapon: MoveConfig<ScoundrelState, Card> = {
   validations(state, card) {
+    isGameOver(state);
     if (!isBlack(card)) throw new Error("Can't fight non-monster");
     if (!state.weapon.card) throw new Error("You don't have a weapon");
     const lastMonster = minBy(state.weapon.monsters, "rank");
@@ -129,7 +138,7 @@ const refillRoom: Hook<ScoundrelState> = {
   },
 };
 
-const isGameOver: Hook<ScoundrelState> = {
+const checkGameOver: Hook<ScoundrelState> = {
   handler(state) {
     if (state.health <= 0) {
       state.winState = "lost";
@@ -144,7 +153,7 @@ const isGameOver: Hook<ScoundrelState> = {
 };
 
 const scoundrelModel = buildModel<ScoundrelState>({
-  afterEach: [isGameOver, refillRoom],
+  afterEach: [checkGameOver, refillRoom],
   state: ({ move }) => {
     const [firstRoom, deck] = shuffleAndDraw(ROOM_SIZE, SCOUNDREL_DECK);
 

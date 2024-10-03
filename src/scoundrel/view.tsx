@@ -13,6 +13,7 @@ import { Icon, SkullIcon, SwordsIcon } from "lucide-react";
 import { cauldron, faceAlien } from "@lucide/lab";
 import { buildCardUi } from "ui/buildCardUI";
 import LifeBar from "ui/LifeBar";
+import GameOverNotice from "scoundrel/GameOverNotice";
 
 const ScoundrelCards = buildCardUi({
   heart: <Icon iconNode={cauldron} />,
@@ -65,6 +66,7 @@ export default function App() {
         title="Dungeon"
       />
       <ActionList state={state} afterAction={clear} selected={selected} />
+      <GameOverNotice state={state} />
     </VerticalLayout>
   );
 }
