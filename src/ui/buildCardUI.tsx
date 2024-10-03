@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { CardPlaceholder, PlayingCard } from "ui/styles/card";
 
 const getRank = ({ rank }: Card) => {
+  if (rank === 14) return "A";
   if (rank === 13) return "K";
   if (rank === 12) return "Q";
   if (rank === 11) return "J";

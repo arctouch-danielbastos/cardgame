@@ -21,11 +21,11 @@ export const hasDifferentColor = (cardA: Card, cardB: Card) => {
   return isRed(cardA) !== isRed(cardB);
 };
 
-export const buildDeck = () => {
+export const buildDeck = (lower: number = 1, higher: number = 13) => {
   const cards: Card[] = [];
 
   for (const suit of suits) {
-    range(1, 14).forEach(rank => cards.push({ suit, rank }));
+    range(lower, higher + 1).forEach(rank => cards.push({ suit, rank }));
   }
 
   return cards;

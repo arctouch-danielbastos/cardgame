@@ -35,9 +35,9 @@ export type ScoundrelState = {
 
 const ROOM_SIZE = 4;
 const MAX_HEALTH = 20;
-const SCOUNDREL_DECK = buildDeck().filter(card => {
+const SCOUNDREL_DECK = buildDeck(2, 14).filter(card => {
   if (isBlack(card)) return true;
-  if (isRed(card)) return card.rank >= 2 && card.rank <= 10;
+  if (isRed(card)) return card.rank <= 10;
 });
 
 const flee: MoveConfig<ScoundrelState, void> = {
