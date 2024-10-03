@@ -24,7 +24,8 @@ const ScoundrelCards = buildCardUi({
 
 const LifeWrapper = styled.div`
   margin: 0 auto;
-  width: 12.5rem;
+  margin-bottom: ${tokens.size3};
+  width: 80%;
   padding: ${tokens.size3};
 `;
 

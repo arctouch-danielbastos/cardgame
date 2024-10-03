@@ -1,5 +1,6 @@
 import tokens from "open-props";
 import styled, { css } from "styled-components";
+import { onMobile } from "ui/styles/breakpoints";
 import colors from "ui/styles/colors";
 import { Bold } from "ui/styles/typography";
 
@@ -16,11 +17,15 @@ export default styled.button<{ disabled?: boolean }>`
   border: ${tokens.borderSize3} solid ${colors.none};
   color: ${colors.fg};
   cursor: pointer;
-  font-size: ${tokens.fontSize1};
+  font-size: ${tokens.fontSize2};
   letter-spacing: ${tokens.fontLetterspacing1};
   outline: none;
   padding: ${tokens.size2} ${tokens.size5};
   ${p => (p.disabled ? DisabledAction : null)}
+
+  ${onMobile} {
+    font-size: ${tokens.fontSize3};
+  }
 
   &:hover {
     background-color: ${colors.bg3};

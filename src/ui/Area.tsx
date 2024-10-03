@@ -22,7 +22,7 @@ const Wrapper = styled.div<{ $rowSize: number }>`
 const Title = styled.div`
   ${Bold};
   color: ${colors.fg};
-  font-size: ${tokens.fontSize1};
+  font-size: ${tokens.fontSize2};
   background-color: ${colors.bg0};
   padding: ${tokens.size1} ${tokens.size2};
   position: absolute;

@@ -1,5 +1,6 @@
 import tokens from "open-props";
 import styled, { css } from "styled-components";
+import { onMobile } from "ui/styles/breakpoints";
 import colors from "ui/styles/colors";
 import { Bold } from "ui/styles/typography";
 
@@ -19,11 +20,15 @@ export const BaseCard = styled.div<{ $isRed?: boolean }>`
   display: flex;
   color: var(--cardColor);
   flex-direction: column;
-  font-size: ${tokens.fontSize2};
+  font-size: ${tokens.fontSize3};
   gap: ${tokens.size3};
   width: ${tokens.size10};
   cursor: pointer;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  ${onMobile} {
+    width: ${tokens.size9};
+  }
 
   &:hover {
     background-color: ${colors.bg3};
