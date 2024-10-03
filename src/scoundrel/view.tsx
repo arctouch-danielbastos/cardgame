@@ -50,7 +50,7 @@ export default function App() {
         count={state.deck.length}
         onClickCard={toggle}
         rowSize={4}
-        title="Defenders"
+        title="Dungeon"
       />
       <ActionList state={state} afterAction={clear} selected={selected} />
     </VerticalLayout>
