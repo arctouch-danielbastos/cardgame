@@ -8,8 +8,8 @@ import {
   type Card,
 } from "deck";
 import buildModel from "framework/model";
-import type { Hook, Model, MoveConfig } from "framework/model/types";
-import { filter, isNull, minBy, negate } from "lodash";
+import type { Model } from "framework/model/types";
+import { filter, isEmpty, isNull, minBy, negate } from "lodash";
 import nullthrows from "nullthrows";
 import replaceWith from "utils/replaceWith";
 
@@ -44,7 +44,7 @@ const SCOUNDREL_DECK = buildDeck(2, 14).filter(card => {
   if (isRed(card)) return card.rank <= 10;
 });
 
-const flee: MoveConfig<ScoundrelState, void> = {
+const flee = move({
   validations(state) {
     isGameOver(state);
     if (state.room.hasSkipped) {
@@ -65,13 +65,15 @@ const flee: MoveConfig<ScoundrelState, void> = {
     state.room.cards = room;
     state.room.hasSkipped = true;
   },
-};
+});
 
-const drinkPotion: MoveConfig<ScoundrelState, Card> = {
-  validations(state, card) {
-    isGameOver(state);
-    if (card.suit !== "heart") throw new Error("Can't drink non-potion");
-  },
+const isPotion = validation<ScoundrelState, Card>(
+  (_, card) => isHeart(card),
+  "You can only drink potions"
+);
+
+const drinkPotion = move({
+  validations: [isPotion],
   handler(state, card) {
     state.room.cards = replaceWith(state.room.cards, card, null);
     if (!state.room.hasDrunkPotion) {
@@ -79,41 +81,47 @@ const drinkPotion: MoveConfig<ScoundrelState, Card> = {
       state.room.hasDrunkPotion = true;
     }
   },
-};
+});
 
-const equipWeapon: MoveConfig<ScoundrelState, Card> = {
-  validations(state, card) {
-    isGameOver(state);
-    if (card.suit !== "diamond") throw new Error("Can't equip non-weapon");
-  },
+const isWeapon = validation<ScoundrelState, Card>(
+  (_, card) => isDiamond(card),
+  "You can only equip weapons"
+);
+
+const equipWeapon = move<ScoundrelState, Card>({
+  validations: [isWeapon],
   handler(state, card) {
     state.room.cards = replaceWith(state.room.cards, card, null);
     state.weapon.card = card;
     state.weapon.monsters = [];
   },
-};
+});
 
-const fightBarehanded: MoveConfig<ScoundrelState, Card> = {
-  validations(state, card) {
-    isGameOver(state);
-    if (!isBlack(card)) throw new Error("Can't fight non-monster");
-  },
+const isMonster = validate(
+  (_, card) => isBlack(card),
+  "You can only fight monsters"
+);
+
+const fightBarehanded = move({
+  validations: [isMonster],
   handler(state, card) {
     state.room.cards = replaceWith(state.room.cards, card, null);
     state.health = Math.max(0, state.health - card.rank);
   },
-};
+});
 
-const fightWithWeapon: MoveConfig<ScoundrelState, Card> = {
-  validations(state, card) {
-    isGameOver(state);
-    if (!isBlack(card)) throw new Error("Can't fight non-monster");
-    if (!state.weapon.card) throw new Error("You don't have a weapon");
-    const lastMonster = minBy(state.weapon.monsters, "rank");
-    if (lastMonster && card.rank >= lastMonster.rank) {
-      throw new Error("Your weapon got weaker! It can't handle this monster");
-    }
-  },
+const hasWeapon = validate(
+  state => !!state.weapon.card,
+  "You don't have a weapon"
+);
+
+const isWeaponStrongEnough = validate((state, card) => {
+  const weakestMonster = minBy(state.weapon.monster, "rank");
+  return !weakestMonster || weakestMonster.rank > card.rank;
+}, "Your weapon got weaker! It can't handle this monster");
+
+const fightWithWeapon = move({
+  validations: [isMonster, hasWeapon, isWeaponStrongEnough],
   handler(state, card) {
     state.room.cards = replaceWith(state.room.cards, card, null);
 
@@ -122,9 +130,9 @@ const fightWithWeapon: MoveConfig<ScoundrelState, Card> = {
     state.health = Math.max(0, state.health - damage);
     state.weapon.monsters.push(card);
   },
-};
+});
 
-const refillRoom: Hook<ScoundrelState> = {
+const refillRoom = buildHook({
   condition: state => filterValid(state.room.cards).length === 1,
   handler(state) {
     const [room, deck] = fillHand(state.room.cards, state.deck);
@@ -136,25 +144,19 @@ const refillRoom: Hook<ScoundrelState> = {
       hasSkipped: false,
     };
   },
-};
+});
 
-const checkGameOver: Hook<ScoundrelState> = {
-  handler(state) {
-    if (state.health <= 0) {
-      state.winState = "lost";
-      return;
-    }
-
-    if (state.deck.length === 0 && filterValid(state.room.cards).length === 0) {
-      state.winState = "won";
-      return;
-    }
-  },
-};
+const gameResult = buildResultManager<ScoundrelState>({
+  hasWon: state => isEmpty(state.deck) && isEmpty(state.room.cards),
+  hasLost: state => state.health <= 0,
+  onTie: "lose",
+  checkAfter: "all",
+});
 
 const scoundrelModel = buildModel<ScoundrelState>({
   afterEach: [checkGameOver, refillRoom],
-  state: ({ move }) => {
+  result: gameResult,
+  buildState: () => {
     const [firstRoom, deck] = shuffleAndDraw(ROOM_SIZE, SCOUNDREL_DECK);
 
     return {
@@ -170,11 +172,6 @@ const scoundrelModel = buildModel<ScoundrelState>({
         card: null,
         monsters: [],
       },
-      flee: move(flee),
-      drinkPotion: move(drinkPotion),
-      equipWeapon: move(equipWeapon),
-      fightBarehanded: move(fightBarehanded),
-      fightWithWeapon: move(fightWithWeapon),
     };
   },
 });
