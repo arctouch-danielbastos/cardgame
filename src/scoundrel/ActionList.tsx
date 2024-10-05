@@ -1,5 +1,5 @@
 import { filterValid, isBlack, type Card } from "deck";
-import type { ScoundrelState } from "scoundrel/model";
+import type { ScoundrelState } from "scoundrel/types";
 import styled from "styled-components";
 import tokens from "open-props";
 import ActionButton from "ui/ActionButton";

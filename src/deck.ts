@@ -12,15 +12,19 @@ import {
 export type Suit = "heart" | "diamond" | "spade" | "club";
 export type Card = { rank: number; suit: Suit };
 
-export const suits: Suit[] = ["club", "diamond", "heart", "spade"];
-const redSuits: Suit[] = ["diamond", "heart"];
+export const isClub = (card: Card) => card.suit === "club";
+export const isDiamond = (card: Card) => card.suit === "diamond";
+export const isHeart = (card: Card) => card.suit === "heart";
+export const isSpade = (card: Card) => card.suit === "spade";
 
-export const isRed = (card: Card) => redSuits.includes(card.suit);
-export const isBlack = (card: Card) => !isRed(card);
+export const isRed = (card: Card) => isDiamond(card) || isHeart(card);
+export const isBlack = (card: Card) => isClub(card) || isSpade(card);
+
 export const hasDifferentColor = (cardA: Card, cardB: Card) => {
   return isRed(cardA) !== isRed(cardB);
 };
 
+export const suits: Suit[] = ["club", "diamond", "heart", "spade"];
 export const buildDeck = (lower: number = 1, higher: number = 13) => {
   const cards: Card[] = [];
 

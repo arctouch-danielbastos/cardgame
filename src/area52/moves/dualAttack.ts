@@ -1,0 +1,33 @@
+import type { Area52State } from "area52/model";
+import { hasDifferentColor, type Card } from "deck";
+import { last, reject, sumBy } from "lodash";
+
+type Props = [Card, Card];
+
+const canDualAttack = validate((state: Area52State, defenders: Props) => {
+  const attacker = last(state.attackers.active);
+  if (!attacker) return false;
+  const attack = attacker.rank;
+  const deffense = sumBy(defenders, "rank");
+  return attack === deffense;
+}, "Invalid attackers for a dual attack");
+
+export default move({
+  validations: [canDualAttack],
+  handler(state: Area52State, defenders: Props) {
+    const activeAttackers = state.attackers.active;
+    const attacker = last(activeAttackers);
+    if (!attacker) return;
+
+    state.discard.push(attacker);
+    state.attackers.active = reject(activeAttackers, attacker);
+
+    if (!state.is2nWave) return;
+
+    for (const card of defenders) {
+      if (hasDifferentColor(card, attacker)) continue;
+      state.defenders.active = reject(state.defenders.active, card);
+      state.discard.push(card);
+    }
+  },
+});

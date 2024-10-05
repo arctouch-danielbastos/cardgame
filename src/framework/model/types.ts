@@ -36,7 +36,7 @@ export type Hook<State extends object> =
     };
 
 export type ModelConfig<Param, State extends object> = {
-  state: (api: StateInput<State>, param: Param) => State;
+  initState: (api: StateInput<State>, param: Param) => State;
   afterEach?: MaybeArray<Hook<State>>;
 };
 

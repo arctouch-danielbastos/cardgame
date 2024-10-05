@@ -1,6 +1,6 @@
 import { PartyPopperIcon, SkullIcon } from "lucide-react";
 import { useMemo, type ComponentProps } from "react";
-import type { ScoundrelState } from "scoundrel/model";
+import type { ScoundrelState } from "scoundrel/types";
 import Snackbar from "ui/Snackbar";
 
 type Config = ComponentProps<typeof Snackbar>["alert"];
