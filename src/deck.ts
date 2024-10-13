@@ -50,10 +50,6 @@ export function filterValid(cards: Array<Card | null>): Card[] {
   return filter(cards, negate(isNull)) as Card[];
 }
 
-export function fillHand(hand: Array<Card | null>, deck: Array<Card>) {
-  const newDeck = [...deck];
-  const newHand = hand.map(card =>
-    !isNull(card) ? card : newDeck.pop() ?? null
-  );
-  return [newHand, newDeck] as const;
+export function fillHand(handSize: number, hand: Card[], deck: Array<Card>) {
+  return draw(handSize, hand, deck);
 }

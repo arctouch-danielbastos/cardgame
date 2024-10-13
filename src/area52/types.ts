@@ -11,5 +11,7 @@ export type Area52State = {
 
 export const BLACK_CARDS = buildDeck().filter(isBlack);
 export const RED_CARDS = buildDeck().filter(isRed);
+export const ATTACKER_COUNT = 3;
+export const DEFENDER_COUNT = 6;
 
 export type Area52Model = Model<Area52State>;
