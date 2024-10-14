@@ -1,7 +1,7 @@
 import type { Area52State } from "area52/model";
 import { isEmpty } from "lodash";
 
-export default buildResultManager<Area52State>({
+export default buildResultPlugin<Area52State>({
   hasWon: state =>
     isEmpty(state.attackers.active) &&
     isEmpty(state.attackers.deck) &&

@@ -1,15 +1,11 @@
-import { shuffleAndDraw } from "deck";
+import { draw } from "deck";
 import { ROOM_SIZE, type ScoundrelState } from "scoundrel/types";
 import { hasEntered, hasSkipped } from "scoundrel/validations/state";
 
 export default move({
   validations: [hasSkipped, hasEntered],
   handler(state: ScoundrelState) {
-    const [room, deck] = shuffleAndDraw(
-      ROOM_SIZE,
-      state.room.cards,
-      state.deck
-    );
+    const [room, deck] = draw(ROOM_SIZE, state.deck, state.room.cards);
 
     state.deck = deck;
     state.room.cards = room;
