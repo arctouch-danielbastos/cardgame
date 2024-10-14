@@ -22,6 +22,7 @@ export default function buildModel<State extends object, Arg = void>({
 
     let _state: State = initState(arg);
     let _error: Error | null = null;
+    let isGameOver = false;
 
     const hooks: { [id in MoveId]: ActionList<State> } = {};
     const globalHooks: ActionList<State> = {
@@ -46,6 +47,8 @@ export default function buildModel<State extends object, Arg = void>({
     plugins.forEach(fn => fn(api));
 
     const play = ([moveId, handler]: MoveConfig<State>) => {
+      if (isGameOver) return;
+
       const queue: Action<State>[] = [
         ...globalHooks.before,
         ...(hooks[moveId]?.before ?? []),
@@ -56,8 +59,13 @@ export default function buildModel<State extends object, Arg = void>({
 
       try {
         let nextState = _state;
+        const gameOver = () => (isGameOver = true);
+
         for (const action of queue) {
-          nextState = produce(nextState, draft => action(draft as State));
+          if (isGameOver) break;
+          nextState = produce(nextState, draft =>
+            action(draft as State, { gameOver })
+          );
         }
         _state = nextState;
       } catch (err) {

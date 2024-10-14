@@ -1,13 +1,15 @@
-export type Action<State extends object> = (state: State) => void;
+export type Action<State extends object> = (
+  state: State,
+  api: ActionApi
+) => void;
 export type MoveId = string;
+export type MoveConfig<State extends object> = [moveId: MoveId, Action<State>];
 
 export interface Move<State extends object, Payload> {
-  (payload: Payload): [MoveId, Action<State>];
+  (payload: Payload): MoveConfig<State>;
   id: string;
   isValid: (state: State, payload: Payload) => boolean;
 }
-
-export type MoveConfig<State extends object> = [moveId: number, Action<State>];
 
 export type ActionList<State extends object> = {
   before: Array<Action<State>>;
@@ -28,6 +30,10 @@ export type PluginApi<State extends object> = {
   afterEach: (action: Action<State>) => void;
 };
 
+export type ActionApi = {
+  gameOver: () => void;
+};
+
 export type ModelInitializer<Param, State extends object> = (
   para: Param
 ) => Model<State>;
@@ -36,7 +42,7 @@ type Callback<T = void> = (param: T) => void;
 
 export type Model<State extends object> = {
   state: State;
-  play: (args: [moveId: MoveId, handler: Action<State>]) => void;
+  play: (args: MoveConfig<State>) => void;
   subscribe: (cb: Callback<void>) => void;
   unsubscribe: (cb: Callback<void>) => void;
 };
