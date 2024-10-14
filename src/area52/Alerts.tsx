@@ -1,5 +1,4 @@
 import { useGame } from "area52/context";
-import type { Area52State } from "area52/types";
 import {
   AlertOctagonIcon,
   CrosshairIcon,

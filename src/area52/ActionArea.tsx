@@ -1,6 +1,10 @@
 import { useGame } from "area52/context";
+import dualAttack from "area52/moves/dualAttack";
+import sacrifice from "area52/moves/sacrifice";
+import singleAttack from "area52/moves/singleAttack";
 import type { Area52State } from "area52/types";
 import type { Card } from "deck";
+import type { Move } from "framework/model/types";
 import tokens from "open-props";
 import styled from "styled-components";
 import ActionButton from "ui/ActionButton";
@@ -15,63 +19,34 @@ const Wrapper = styled.div`
   padding: 0;
 `;
 
-type ActionConfig = {
-  id: string;
-  label: string;
-  condition: (state: Area52State, selected: Card[]) => boolean;
-  action: (state: Area52State, selected: Card[]) => void;
-};
-
-const dualAttack: ActionConfig = {
-  id: "dual-attack",
-  label: "Dual Attack",
-  condition: (_, selected) => selected.length === 2,
-  action(state, selected) {
-    state.dualAttack({ defenders: selected as [Card, Card] });
-  },
-};
-
-const singleAttack: ActionConfig = {
-  id: "single-attack",
-  label: "Single Attack",
-  condition: (_, selected) => selected.length === 1,
-  action(state, selected) {
-    state.singleAttack({ defender: selected[0] });
-  },
-};
-
-const sacrifice: ActionConfig = {
-  id: "sacrifice",
-  label: "Sacrifice",
-  condition: (_, selected) => selected.length === 1,
-  action(state, selected) {
-    state.sacrifice({ defender: selected[0] });
-  },
-};
-
 type Props = {
   selected: Card[];
   onAttack: () => void;
 };
 
-const actions = [dualAttack, singleAttack, sacrifice];
-export default function ActionArea({ selected, onAttack }: Props) {
-  const { state } = useGame();
+const actions = [
+  ["Dual Attack", dualAttack],
+  ["Single Attack", singleAttack],
+  ["Sacrifice", sacrifice],
+] as const;
 
-  const buildHandler = (action: ActionConfig["action"]) => () => {
-    action(state, selected);
+export default function ActionArea({ selected, onAttack }: Props) {
+  const { state, game } = useGame();
+
+  const buildHandler = (action: Move<Area52State, Card[]>) => () => {
+    game.play(action(selected));
     onAttack();
   };
 
   return (
     <Wrapper>
-      {actions.map(action => (
+      {actions.map(([label, action]) => (
         <ActionButton
           key={action.id}
-          disabled={!action.condition(state, selected)}
-          onClick={buildHandler(action.action)}
+          disabled={!action.isValid(state, selected)}
+          onClick={buildHandler(action)}
         >
-          {action.label}
+          {label}
         </ActionButton>
       ))}
     </Wrapper>
