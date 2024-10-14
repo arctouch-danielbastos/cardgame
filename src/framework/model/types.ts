@@ -16,8 +16,16 @@ export type ActionList<State extends object> = {
 
 export type ModelConfig<Param, State extends object> = {
   initState: (param: Param) => State;
+  plugins: Array<(api: PluginApi<State>) => void>;
   afterEach?: Array<Action<State>>;
   beforeEach?: Array<Action<State>>;
+};
+
+export type PluginApi<State extends object> = {
+  before: (moveId: MoveId, action: Action<State>) => void;
+  beforeEach: (action: Action<State>) => void;
+  after: (moveId: MoveId, action: Action<State>) => void;
+  afterEach: (action: Action<State>) => void;
 };
 
 export type ModelInitializer<Param, State extends object> = (
@@ -28,7 +36,7 @@ type Callback<T = void> = (param: T) => void;
 
 export type Model<State extends object> = {
   state: State;
-  play: (args: [moveId: number, handler: Action<State>]) => void;
+  play: (args: [moveId: MoveId, handler: Action<State>]) => void;
   subscribe: (cb: Callback<void>) => void;
   unsubscribe: (cb: Callback<void>) => void;
 };
