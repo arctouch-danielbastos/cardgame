@@ -1,19 +1,19 @@
+import ActionList from "scoundrel/ActionList";
+import Area from "ui/Area";
+import GameOverNotice from "scoundrel/GameOverNotice";
+import LifeBar from "ui/LifeBar";
+import ScoundrelLogo from "scoundrel/logo.svg?react";
+import VerticalLayout from "ui/VerticalLayout";
+import scoundrelModel from "scoundrel/model";
 import styled from "styled-components";
 import tokens from "open-props";
-import ScoundrelLogo from "scoundrel/logo.svg?react";
-import { isEqual, takeRight } from "lodash";
-import Area from "ui/Area";
-import useModel from "ui/hooks/useModel";
-import scoundrelModel from "scoundrel/model";
-import VerticalLayout from "ui/VerticalLayout";
-import { useState } from "react";
 import type { Card } from "deck";
-import ActionList from "scoundrel/ActionList";
+import useGame from "ui/hooks/useGame";
 import { Icon, SkullIcon, SwordsIcon } from "lucide-react";
-import { cauldron, faceAlien } from "@lucide/lab";
 import { buildCardUi } from "ui/buildCardUI";
-import LifeBar from "ui/LifeBar";
-import GameOverNotice from "scoundrel/GameOverNotice";
+import { cauldron, faceAlien } from "@lucide/lab";
+import { isEqual, takeRight } from "lodash";
+import { useState } from "react";
 
 const ScoundrelCards = buildCardUi({
   heart: <Icon iconNode={cauldron} />,
@@ -35,7 +35,7 @@ const Section = styled.div`
 `;
 
 export default function App() {
-  const { state } = useModel(scoundrelModel);
+  const { state } = useGame(scoundrelModel);
   const [selected, setSelected] = useState<Card | null>(null);
   const clear = () => setSelected(null);
   const toggle = (card: Card) => {

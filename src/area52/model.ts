@@ -9,9 +9,9 @@ import {
   type Area52State,
 } from "area52/types";
 import { shuffleAndDraw } from "deck";
-import buildModel from "framework/model";
+import buildGame from "framework/model";
 
-export default buildModel<Area52State>({
+export default buildGame<Area52State>({
   afterEach: [refillAttackers, start2ndWave],
   result: gameResult,
   initState: () => {

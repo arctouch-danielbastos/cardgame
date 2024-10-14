@@ -9,7 +9,7 @@ import { lastValid } from "utils/lastValid";
 import Area from "ui/Area";
 import ActionArea from "area52/ActionArea";
 import Alerts from "area52/Alerts";
-import useModel from "ui/hooks/useModel";
+import useGame from "ui/hooks/useGame";
 import VerticalLayout from "ui/VerticalLayout";
 import { ufo, faceAlien, astronautHelmet } from "@lucide/lab";
 import { Icon, Rocket } from "lucide-react";
@@ -43,7 +43,7 @@ const useSelection = () => {
 };
 
 export default function App() {
-  const { state } = useModel(area52Model);
+  const { state } = useGame(area52Model);
   const { selected, toggle, resetSelection } = useSelection();
 
   return (
