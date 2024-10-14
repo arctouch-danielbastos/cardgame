@@ -1,16 +1,21 @@
 import type { Area52State } from "area52/types";
 import { hasDifferentColor, type Card } from "deck";
+import move from "framework/model/move";
+import { validate } from "framework/model/validate";
 import { last, reject, sumBy } from "lodash";
 
 type Props = [Card, Card];
 
-const canDualAttack = validate((state: Area52State, defenders: Props) => {
-  const attacker = last(state.attackers.active);
-  if (!attacker) return false;
-  const attack = attacker.rank;
-  const deffense = sumBy(defenders, "rank");
-  return attack === deffense;
-}, "Invalid attackers for a dual attack");
+const canDualAttack = validate(
+  "Invalid attackers for a dual attack",
+  (state: Area52State, defenders: Props) => {
+    const attacker = last(state.attackers.active);
+    if (!attacker) return false;
+    const attack = attacker.rank;
+    const deffense = sumBy(defenders, "rank");
+    return attack === deffense;
+  }
+);
 
 export default move({
   validations: [canDualAttack],

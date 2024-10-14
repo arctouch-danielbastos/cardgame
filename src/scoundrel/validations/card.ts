@@ -1,7 +1,8 @@
 import { isBlack, isDiamond, isHeart, type Card } from "deck";
+import { validatePayload } from "framework/model/validate";
 
-const validateCard = validatePayload<any, Card>;
+const validateCard = validatePayload<Card>;
 
-export const isPotion = validateCard(isHeart, "You can only drink potions");
-export const isWeapon = validateCard(isDiamond, "You can only equip weapons");
-export const isMonster = validateCard(isBlack, "You can only fight monsters");
+export const isPotion = validateCard("You can only drink potions", isHeart);
+export const isWeapon = validateCard("You can only equip weapons", isDiamond);
+export const isMonster = validateCard("You can only fight monsters", isBlack);

@@ -1,59 +1,27 @@
-import type { MaybeArray } from "utils/ensureArray";
+export type Action<State extends object> = (state: State) => void;
 
-export type Validator<State extends object, Payload> = (
-  state: State,
-  move: Payload
-) => void;
+export type MoveConfig<State extends object> = [moveId: number, Action<State>];
 
-export type Handler<State extends object, Payload> = (
-  state: State,
-  move: Payload
-) => void;
-
-export type MoveConfig<State extends object, Payload> =
-  | Handler<State, Payload>
-  | {
-      validations?: MaybeArray<Validator<State, Payload>>;
-      handler: Handler<State, Payload>;
-    };
-
-export type StateChange<State> =
-  | Partial<State>
-  | ((state: State) => Partial<State>);
-
-export type StateInput<State extends object> = {
-  set: (changes: StateChange<State>) => void;
-  move: <Payload = void>(
-    config: MoveConfig<State, Payload> | Handler<State, Payload>
-  ) => (payload: Payload) => void;
+export type ActionList<State extends object> = {
+  before: Array<Action<State>>;
+  after: Array<Action<State>>;
 };
 
-export type Hook<State extends object> =
-  | ((state: State) => void)
-  | {
-      handler: (state: State) => void;
-      condition?: (state: State) => boolean;
-    };
-
 export type ModelConfig<Param, State extends object> = {
-  initState: (api: StateInput<State>, param: Param) => State;
-  afterEach?: MaybeArray<Hook<State>>;
+  initState: (param: Param) => State;
+  afterEach?: Array<Action<State>>;
+  beforeEach?: Array<Action<State>>;
 };
 
 export type ModelInitializer<Param, State extends object> = (
   para: Param
 ) => Model<State>;
 
-export type HookArgs<State extends object> = {
-  [K in keyof State]: State[K] extends (payload: infer Payload) => void
-    ? { action: K; payload: Payload }
-    : never;
-}[keyof State];
-
 type Callback<T = void> = (param: T) => void;
+
 export type Model<State extends object> = {
   state: State;
-  undo: () => void;
-  subscribe: (cb: Callback<HookArgs<State>>) => void;
-  unsubscribe: (cb: Callback<HookArgs<State>>) => void;
+  play: (args: [moveId: number, handler: Action<State>]) => void;
+  subscribe: (cb: Callback<void>) => void;
+  unsubscribe: (cb: Callback<void>) => void;
 };
