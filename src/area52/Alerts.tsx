@@ -1,3 +1,4 @@
+import { useGame } from "area52/context";
 import type { Area52State } from "area52/types";
 import {
   AlertOctagonIcon,
@@ -38,8 +39,9 @@ const lost: Config = {
 };
 
 const CLEAR_ALERT_TIMEOUT = 1500;
-type Props = { state: Area52State };
-export default function Alerts({ state }: Props) {
+export default function Alerts() {
+  const { state } = useGame();
+
   const [alert, setAlert] = useState<Config | null>();
   const [lastWaveShown, setLastWaveShown] = useState<number | null>();
 

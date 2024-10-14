@@ -1,8 +1,10 @@
 import App from "scoundrel/view";
+import scoundrelModel from "scoundrel/model";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createGlobalStyle } from "styled-components";
 import colors, { DarkColors, LightColors } from "ui/styles/colors";
+import { GameProvider } from "scoundrel/context";
 
 const GlobalStyle = createGlobalStyle`
 	:root {
@@ -27,6 +29,8 @@ const GlobalStyle = createGlobalStyle`
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <GlobalStyle />
-    <App />
+    <GameProvider game={scoundrelModel()}>
+      <App />
+    </GameProvider>
   </React.StrictMode>
 );

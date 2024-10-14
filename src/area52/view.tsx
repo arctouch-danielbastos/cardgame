@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { useState } from "react";
-import area52Model from "area52/model";
 import { includes, without } from "lodash";
 import { Title } from "ui/styles/typography";
 import colors from "ui/styles/colors";
@@ -9,11 +8,11 @@ import { lastValid } from "utils/lastValid";
 import Area from "ui/Area";
 import ActionArea from "area52/ActionArea";
 import Alerts from "area52/Alerts";
-import useGame from "ui/hooks/useGame";
 import VerticalLayout from "ui/VerticalLayout";
 import { ufo, faceAlien, astronautHelmet } from "@lucide/lab";
 import { Icon, Rocket } from "lucide-react";
 import { buildCardUi } from "ui/buildCardUI";
+import { useGame } from "area52/context";
 
 const Area52Cards = buildCardUi({
   heart: <Icon iconNode={ufo} />,
@@ -43,7 +42,7 @@ const useSelection = () => {
 };
 
 export default function App() {
-  const { state } = useGame(area52Model);
+  const { state } = useGame();
   const { selected, toggle, resetSelection } = useSelection();
 
   return (
@@ -65,8 +64,8 @@ export default function App() {
         count={state.defenders.deck.length}
       />
 
-      <ActionArea selected={selected} onAttack={resetSelection} state={state} />
-      <Alerts state={state} />
+      <ActionArea selected={selected} onAttack={resetSelection} />
+      <Alerts />
     </VerticalLayout>
   );
 }

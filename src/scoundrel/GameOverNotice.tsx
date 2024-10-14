@@ -1,6 +1,6 @@
 import { PartyPopperIcon, SkullIcon } from "lucide-react";
 import { useMemo, type ComponentProps } from "react";
-import type { ScoundrelState } from "scoundrel/types";
+import { useGame } from "scoundrel/context";
 import Snackbar from "ui/Snackbar";
 
 type Config = ComponentProps<typeof Snackbar>["alert"];
@@ -17,8 +17,9 @@ const lost: Config = {
   variant: "danger",
 };
 
-type Props = { state: ScoundrelState };
-export default function GameOverNotice({ state }: Props) {
+export default function GameOverNotice() {
+  const { state } = useGame();
+
   const alert = useMemo(() => {
     if (state.winState === "lost") return lost;
     if (state.winState === "won") return won;

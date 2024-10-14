@@ -2,9 +2,14 @@ import { shuffleAndDraw } from "deck";
 import buildGame from "framework/model";
 import gameResult from "scoundrel/gameResult";
 import refillRoom from "scoundrel/hooks/refillRoom";
-import { MAX_HEALTH, ROOM_SIZE, SCOUNDREL_DECK } from "scoundrel/types";
+import {
+  MAX_HEALTH,
+  ROOM_SIZE,
+  SCOUNDREL_DECK,
+  ScoundrelState,
+} from "scoundrel/types";
 
-export default buildGame({
+export default buildGame<ScoundrelState>({
   afterEach: [refillRoom],
   result: gameResult,
   initState: () => {

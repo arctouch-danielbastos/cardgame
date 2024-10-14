@@ -1,3 +1,4 @@
+import { useGame } from "area52/context";
 import type { Area52State } from "area52/types";
 import type { Card } from "deck";
 import tokens from "open-props";
@@ -50,12 +51,13 @@ const sacrifice: ActionConfig = {
 
 type Props = {
   selected: Card[];
-  state: Area52State;
   onAttack: () => void;
 };
 
 const actions = [dualAttack, singleAttack, sacrifice];
-export default function ActionArea({ selected, state, onAttack }: Props) {
+export default function ActionArea({ selected, onAttack }: Props) {
+  const { state } = useGame();
+
   const buildHandler = (action: ActionConfig["action"]) => () => {
     action(state, selected);
     onAttack();

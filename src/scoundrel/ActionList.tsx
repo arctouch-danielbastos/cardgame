@@ -5,6 +5,7 @@ import tokens from "open-props";
 import ActionButton from "ui/ActionButton";
 import { Text } from "ui/styles/typography";
 import colors from "ui/styles/colors";
+import { useGame } from "scoundrel/context";
 
 const Wrapper = styled.div`
   gap: ${tokens.size2};
@@ -78,12 +79,12 @@ const flee: ActionConfig = {
 const actions = [useWeapon, fightBarehanded, equipWeapon, drinkPotion, flee];
 
 type Props = {
-  state: ScoundrelState;
   selected: Card | null;
   afterAction: () => void;
 };
 
-export default function ActionList({ state, selected, afterAction }: Props) {
+export default function ActionList({ selected, afterAction }: Props) {
+  const { state } = useGame();
   const handle = (action: ActionConfig["action"]) => {
     action(state, selected);
     afterAction();
