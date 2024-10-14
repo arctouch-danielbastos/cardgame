@@ -1,13 +1,14 @@
 import type { Card } from "deck";
+import move from "framework/model/move";
 import { reject } from "lodash";
 import nullthrows from "nullthrows";
 import type { ScoundrelState } from "scoundrel/types";
 import { isMonster } from "scoundrel/validations/card";
 import { hasWeapon, isWeaponStrongEnough } from "scoundrel/validations/state";
 
-export default move({
+export default move<ScoundrelState, Card>({
   validations: [isMonster, hasWeapon, isWeaponStrongEnough],
-  handler(state: ScoundrelState, card: Card) {
+  handler(state, card) {
     state.room.cards = reject(state.room.cards, card);
 
     const weapon = nullthrows(state.weapon.card);

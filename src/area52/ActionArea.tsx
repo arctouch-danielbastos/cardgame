@@ -1,4 +1,4 @@
-import type { Area52State } from "area52/model";
+import type { Area52State } from "area52/types";
 import type { Card } from "deck";
 import tokens from "open-props";
 import styled from "styled-components";

@@ -1,4 +1,5 @@
 import { draw } from "deck";
+import move from "framework/model/move";
 import { ROOM_SIZE, type ScoundrelState } from "scoundrel/types";
 import { hasEntered, hasSkipped } from "scoundrel/validations/state";
 

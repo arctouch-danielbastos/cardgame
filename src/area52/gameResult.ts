@@ -1,4 +1,4 @@
-import type { Area52State } from "area52/model";
+import type { Area52State } from "area52/types";
 import { isEmpty } from "lodash";
 
 export default buildResultPlugin<Area52State>({

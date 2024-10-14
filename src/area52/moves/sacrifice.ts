@@ -1,5 +1,6 @@
 import type { Area52State } from "area52/types";
 import type { Card } from "deck";
+import move from "framework/model/move";
 import { last, reject } from "lodash";
 
 export default move({

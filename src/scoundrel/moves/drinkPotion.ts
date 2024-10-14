@@ -1,4 +1,5 @@
 import type { Card } from "deck";
+import move from "framework/model/move";
 import { reject } from "lodash";
 import { MAX_HEALTH, type ScoundrelState } from "scoundrel/types";
 import { isPotion } from "scoundrel/validations/card";

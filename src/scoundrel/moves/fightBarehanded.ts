@@ -1,4 +1,5 @@
 import type { Card } from "deck";
+import move from "framework/model/move";
 import { reject } from "lodash";
 import type { ScoundrelState } from "scoundrel/types";
 import { isMonster } from "scoundrel/validations/card";

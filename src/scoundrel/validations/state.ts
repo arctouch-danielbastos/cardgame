@@ -13,7 +13,7 @@ export const hasEntered = validate<ScoundrelState>(
   state => state.room.cards.length === ROOM_SIZE
 );
 
-export const hasWeapon = validate<ScoundrelState>(
+export const hasWeapon = validate<ScoundrelState, unknown>(
   "You don't have a weapon",
   state => !!state.weapon.card
 );

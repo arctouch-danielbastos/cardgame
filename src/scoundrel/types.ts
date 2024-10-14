@@ -15,11 +15,6 @@ export type ScoundrelState = {
     card: Card | null;
     monsters: Card[];
   };
-  flee: () => void;
-  drinkPotion: (card: Card) => void;
-  equipWeapon: (card: Card) => void;
-  fightBarehanded: (card: Card) => void;
-  fightWithWeapon: (card: Card) => void;
 };
 
 export const ROOM_SIZE = 4;
