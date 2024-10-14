@@ -1,4 +1,11 @@
 export type Action<State extends object> = (state: State) => void;
+export type MoveId = string;
+
+export interface Move<State extends object, Payload> {
+  (payload: Payload): [MoveId, Action<State>];
+  id: string;
+  isValid: (state: State, payload: Payload) => boolean;
+}
 
 export type MoveConfig<State extends object> = [moveId: number, Action<State>];
 
