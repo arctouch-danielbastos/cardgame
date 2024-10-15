@@ -15,7 +15,9 @@ export default function createGameContext<State extends object>() {
     const [state, setState] = useState(game.state);
 
     useEffect(() => {
-      game.subscribe(() => setState(game.state));
+      const fn = () => setState(game.state);
+      game.subscribe(fn);
+      return () => game.unsubscribe(fn);
     }, [game]);
 
     return (

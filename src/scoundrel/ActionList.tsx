@@ -54,7 +54,15 @@ export default function ActionList({ selected, afterAction }: Props) {
     afterAction();
   };
 
-  if (!selected) return <ActionButton onClick={handleFlee}>Flee</ActionButton>;
+  const placeholder = <Placeholder>Select a card</Placeholder>;
+
+  if (!selected) {
+    return flee.isValid(state) ? (
+      <ActionButton onClick={handleFlee}>Flee</ActionButton>
+    ) : (
+      placeholder
+    );
+  }
 
   const ctas = actions
     .filter(([, action]) => action.isValid(state, selected))
@@ -63,8 +71,6 @@ export default function ActionList({ selected, afterAction }: Props) {
         {label}
       </ActionButton>
     ));
-
-  const placeholder = <Placeholder>Select a card</Placeholder>;
 
   return <Wrapper>{ctas.length > 0 ? ctas : placeholder}</Wrapper>;
 }
