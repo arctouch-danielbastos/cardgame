@@ -13,6 +13,8 @@ import { cauldron, faceAlien } from "@lucide/lab";
 import { isEqual, takeRight } from "lodash";
 import { useState } from "react";
 import { useGame } from "scoundrel/context";
+import useStableList from "ui/hooks/useStableList";
+import getKeyForCard from "utils/getKeyForCard";
 
 const ScoundrelCards = buildCardUi({
   heart: <Icon iconNode={cauldron} />,
@@ -41,7 +43,13 @@ export default function App() {
     setSelected(previous => (isEqual(previous, card) ? null : card));
   };
 
-  const weaponRow = [state.weapon.card, ...takeRight(state.weapon.monsters, 3)];
+  const weaponRow = useStableList(
+    [state.weapon.card, ...takeRight(state.weapon.monsters, 3)],
+    getKeyForCard
+  );
+
+  const roomRow = useStableList(state.room.cards, getKeyForCard);
+
   return (
     <VerticalLayout>
       <Section>
@@ -59,7 +67,7 @@ export default function App() {
       <Area
         CardUI={ScoundrelCards}
         activeCards={[selected]}
-        cards={state.room.cards}
+        cards={roomRow}
         count={state.deck.length}
         onClickCard={toggle}
         rowSize={4}
