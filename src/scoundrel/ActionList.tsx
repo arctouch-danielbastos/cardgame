@@ -31,8 +31,8 @@ const Placeholder = styled.div`
 
 const actions = [
   ["Equip weapon", equipWeapon],
-  ["Fight barehanded", fightBarehanded],
   ["Fight with weapon", fightWithWeapon],
+  ["Fight barehanded", fightBarehanded],
   ["Drink potion", drinkPotion],
 ] as const;
 

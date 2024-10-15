@@ -5,7 +5,7 @@ import { ROOM_SIZE, type ScoundrelState } from "scoundrel/types";
 
 export const hasSkipped = validate<ScoundrelState>(
   "Can't skip twice in a row",
-  state => state.room.hasSkipped
+  state => !state.room.hasSkipped
 );
 
 export const hasEntered = validate<ScoundrelState>(
