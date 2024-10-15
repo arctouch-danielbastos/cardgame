@@ -13,7 +13,7 @@ import buildGame from "framework/model";
 
 export default buildGame<Area52State>({
   afterEach: [refillAttackers, start2ndWave],
-  result: gameResult,
+  plugins: [gameResult],
   initState: () => {
     const [attackers, attackDeck] = shuffleAndDraw(ATTACKER_COUNT, RED_CARDS);
     const [defenders, defenseDeck] = shuffleAndDraw(

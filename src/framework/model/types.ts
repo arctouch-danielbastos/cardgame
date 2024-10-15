@@ -1,7 +1,4 @@
-export type Action<State extends object> = (
-  state: State,
-  api: ActionApi
-) => void;
+export type Action<State extends object> = (state: State) => void;
 export type MoveId = string;
 export type MoveConfig<State extends object> = [moveId: MoveId, Action<State>];
 
@@ -30,10 +27,6 @@ export type PluginApi<State extends object> = {
   afterEach: (action: Action<State>) => void;
 };
 
-export type ActionApi = {
-  gameOver: () => void;
-};
-
 export type ModelInitializer<Param, State extends object> = (
   para: Param
 ) => Model<State>;
@@ -42,6 +35,7 @@ type Callback<T = void> = (param: T) => void;
 
 export type Model<State extends object> = {
   state: State;
+  error: Error | null;
   play: (args: MoveConfig<State>) => void;
   subscribe: (cb: Callback<void>) => void;
   unsubscribe: (cb: Callback<void>) => void;

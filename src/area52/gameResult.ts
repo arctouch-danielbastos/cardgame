@@ -1,4 +1,5 @@
 import type { Area52State } from "area52/types";
+import buildResultPlugin from "framework/model/buildResultPlugin";
 import { isEmpty } from "lodash";
 
 export default buildResultPlugin<Area52State>({
@@ -10,6 +11,8 @@ export default buildResultPlugin<Area52State>({
   hasLost: state =>
     isEmpty(state.defenders.active) && isEmpty(state.defenders.deck),
 
-  onTie: "lose",
+  onTie: "lost",
   checkAfter: "all",
+
+  key: "winState",
 });

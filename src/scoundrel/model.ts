@@ -11,7 +11,7 @@ import {
 
 export default buildGame<ScoundrelState>({
   afterEach: [refillRoom],
-  result: gameResult,
+  plugins: [gameResult],
   initState: () => {
     const [firstRoom, deck] = shuffleAndDraw(ROOM_SIZE, SCOUNDREL_DECK);
 

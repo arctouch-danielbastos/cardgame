@@ -20,9 +20,8 @@ export default function buildModel<State extends object, Arg = void>({
   return (arg: Arg): Model<State> => {
     const listener = createListener();
 
-    let _state: State = initState(arg);
-    let _error: Error | null = null;
-    let isGameOver = false;
+    let state: State = initState(arg);
+    let error: Error | null = null;
 
     const hooks: { [id in MoveId]: ActionList<State> } = {};
     const globalHooks: ActionList<State> = {
@@ -47,8 +46,6 @@ export default function buildModel<State extends object, Arg = void>({
     plugins.forEach(fn => fn(api));
 
     const play = ([moveId, handler]: MoveConfig<State>) => {
-      if (isGameOver) return;
-
       const queue: Action<State>[] = [
         ...globalHooks.before,
         ...(hooks[moveId]?.before ?? []),
@@ -58,18 +55,15 @@ export default function buildModel<State extends object, Arg = void>({
       ];
 
       try {
-        let nextState = _state;
-        const gameOver = () => (isGameOver = true);
+        let nextState = state;
 
         for (const action of queue) {
-          if (isGameOver) break;
-          nextState = produce(nextState, draft =>
-            action(draft as State, { gameOver })
-          );
+          nextState = produce(nextState, draft => action(draft as State));
         }
-        _state = nextState;
+
+        state = nextState;
       } catch (err) {
-        if (err instanceof Error) _error = err;
+        if (err instanceof Error) error = err;
       }
 
       listener.emit();
@@ -77,7 +71,10 @@ export default function buildModel<State extends object, Arg = void>({
 
     return {
       get state() {
-        return _state;
+        return state;
+      },
+      get error() {
+        return error;
       },
       play,
       subscribe: listener.on,
