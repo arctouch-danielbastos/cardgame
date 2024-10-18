@@ -8,8 +8,7 @@ const hasRightColor = validate<Area52State, Card[]>(
   "Defender and Attacker must have opposite colors",
   (state, [defender]) => {
     const attacker = last(state.attackers.active);
-    if (!attacker) return false;
-    return hasDifferentColor(attacker, defender);
+    return !!attacker && hasDifferentColor(attacker, defender);
   }
 );
 
@@ -28,6 +27,7 @@ export default move({
     if (!attacker) return;
 
     state.discard.push(defender);
+    state.defenders.active.push(attacker);
     state.defenders.active = reject(activeDefenders, defender);
     state.attackers.active = reject(activeAttackers, attacker);
   },
