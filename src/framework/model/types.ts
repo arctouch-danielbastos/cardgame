@@ -1,6 +1,9 @@
 export type Action<State extends object> = (state: State) => void;
 export type MoveId = string;
-export type MoveConfig<State extends object> = [moveId: MoveId, Action<State>];
+export type MoveConfig<State extends object> = readonly [
+  moveId: MoveId,
+  Action<State>
+];
 
 export interface Move<State extends object, Payload> {
   (payload: Payload): MoveConfig<State>;
